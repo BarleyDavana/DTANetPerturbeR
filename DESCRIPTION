@@ -1,0 +1,28 @@
+Package: DTANetPerturbeR
+Title: Drug-Target binding Affinity based Network Perturbation approach for drug Repurposing
+Version: 0.1.0
+Authors@R: 
+    person(given = "Yitan", 
+           family = "Lu",
+           role = c("aut", "cre"),
+           email = "yitanlu02@gmail.com")
+Description: 
+    This package is used for drug repurposing based on binding affinity weighted
+    drug-target-gene network perturbation analysis.
+    It includes three main steps: constructing the disease network, 
+    identifying the target module, and drug repurposing.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+LazyData: true
+Installdir: inst
+biocViews:
+Imports: 
+    clusterProfiler,
+    data.table,
+    dnet,
+    dplyr,
+    igraph,
+    limma,
+    org.Hs.eg.db
