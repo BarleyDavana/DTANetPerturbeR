@@ -14,7 +14,7 @@ Drug-Target binding Affinity based <br>Network Perturbation approach <br>for dru
 **DTANetPerturbeR** is an R package designed for drug repurposing based on network perturbation algorithm. Its primary aim is to identify candidate drugs for a disease of interest. Given a set of genes associated with a disease provided by the user, the package constructs disease networks, identifies target module, and performs drug repurposing. Ultimately, it calculates repurposing scores and ranks the drugs accordingly.
 
 ### Overview of drug repurposing computational framework
-
+![workflow](https://github.com/BarleyDavana/DTANetPerturbeR/assets/130750578/2509e5a4-a283-42cb-8096-931118b888a8)
 **Drug repurposing through the PRS-based approach.** Step1: Construct a heterogeneous network comprising non-target proteins, target proteins, and drugs. Step2: Use DeepPurpose to predict binding affinities for drug-target interactions and assign weights to edges in the heterogeneous network. Step3: Employ the PRS-based algorithm to calculate the perturbation score for a specific drug acting on its target. Step4: Calculate the sum of PRS scores for each drug in the network.
 
 ### Package organization
