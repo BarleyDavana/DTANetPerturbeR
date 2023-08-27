@@ -31,8 +31,32 @@ DTANetPerturbeR/
 ```
 
 ## Installation
+
+### Installation of DTANetPerturbeR
 ```
 install.packages("devtools")
 library(devtools)
 install_github("BarleyDavana/DTANetPerturbeR")
 ```
+
+### Installation of DeepPurpose
+The DeepPurpose library is required for affinity prediction. To install it, you need to create and activate a new conda environment, install RDKit and Jupyter Notebook, install the descriptastorus dependency, and finally install DeepPurpose.
+```
+conda create -n DeepPurpose python=3.9
+conda activate DeepPurpose
+conda install -c conda-forge rdkit
+conda install -c conda-forge notebook
+pip install git+https://github.com/bp-kelley/descriptastorus
+pip install DeepPurpose
+```
+For more details about DeepPurpose, please visit
+https://github.com/kexinhuang12345/DeepPurpose#-a-deep-learning-library-for-compound-and-protein-modeling-dti-drug-property-ppi-ddi-protein-function-prediction
+
+### Installation of ProDy
+The ProDy package is required for PRS calculation. To install it, you can easily using the following command:
+```
+pip install prody
+```
+For more details about ProDy, please visit
+https://github.com/prody/ProDy
+
