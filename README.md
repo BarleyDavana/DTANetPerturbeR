@@ -32,7 +32,13 @@ DTANetPerturbeR/
 
 ## Installation
 
+### Requirements
+- R 4.1.0
+- Python 3.9
+- pip
+
 ### Installation of DTANetPerturbeR
+Use the install_github function from the devtools library to download and install the DTANetPerturbeR package.
 ```
 install.packages("devtools")
 library(devtools)
@@ -50,7 +56,7 @@ pip install git+https://github.com/bp-kelley/descriptastorus
 pip install DeepPurpose
 ```
 For more details about DeepPurpose, please visit
-https://github.com/kexinhuang12345/DeepPurpose#-a-deep-learning-library-for-compound-and-protein-modeling-dti-drug-property-ppi-ddi-protein-function-prediction
+https://github.com/kexinhuang12345/DeepPurpose
 
 ### Installation of ProDy
 The ProDy package is required for PRS calculation. To install it, you can easily using the following command:
