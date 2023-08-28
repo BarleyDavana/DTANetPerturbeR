@@ -78,7 +78,7 @@ DTANetPerturbeR is composed of three main steps:
 ![architecture](https://github.com/BarleyDavana/DTANetPerturbeR/assets/130750578/6cebb735-339f-4af4-bfb6-361496342525)
 
 ### Construct Disease Network
-The createDiseaseNetwork.R script is used to construct a disease gene network for a given set of disease genes.
+The **createDiseaseNetwork.R** script is used to construct a disease protein network for a given set of disease genes.
 ```
 ├── Step1
 │ ├── getCommonGenes.R
@@ -88,14 +88,14 @@ The createDiseaseNetwork.R script is used to construct a disease gene network fo
 └── createDiseaseNetwork.R <---
 ```
 
-Usage Example
+#### Usage Example
 
 ```R
 # Load disease genes from file
 gene_list <- read.table("gene_list.txt", header = TRUE, sep = '\t')
 
 # Create the disease network
-createDiseaseNetwork(gene_list)
+createDiseaseNetwork(gene_list, enlarge_network = FALSE)
 ```
 
 The `createDiseaseNetwork` function accepts two parameters:
@@ -103,3 +103,59 @@ The `createDiseaseNetwork` function accepts two parameters:
 * `enlarge_network`: a logical parameter indicating whether to expand the network.
 
 It initially retrieves genes shared with other diseases and utilizes them to form an initial network. If the 'enlarge_network' parameter is set to TRUE (`default is FALSE`), the function expands the network. It ultimately returns the resulting disease network.
+
+### Identify Target Module
+The **identifyTargetModule.R** script is used to identify target module in a given disease protein network and map drugs to targets within the target module.
+```
+├── Step2
+│ ├── getCommunities.R
+│ ├── mapTargets.R
+│ ├── getTargetModule.R
+│ ├── mapDrugs.R
+└── identifyTargetModule.R <---
+```
+
+#### Usage Example
+
+```R
+# Create a disease network using createDiseaseNetwork function
+disease_net <- createDiseaseNetwork(gene_list, enlarge_network = FALSE)
+
+# Create a disease network from a text file containing network edges
+disease_net <- read.table("disease_net.txt", header = TRUE)
+
+# Identify the target module in the network
+identifyTargetModule(disease_net)
+```
+
+The `identifyTargetModule` function accepts one parameter:
+* `disease_net`: a data frame containing the edge list of the disease network.
+
+It initially detects modules within the provided disease protein network, then it maps targets to proteins within the network, identifies target module, and maps drugs to targets within the target module. It ultimately produces a data frame that represents drug-target interactions specific to the identified target module in the disease protein network.
+
+### Perform Drug Repurposing
+The **runDrugScoring.R** script is used to predict the binding affinity between drugs and targets, and calculates drug repurposing scores through PRS-based algorithm.
+
+```
+├── Step3
+│ ├── predict_binding_affinity.py
+│ ├── calculate_PRS.py
+└── runDrugScoring.R <---
+```
+
+#### Usage Example
+
+```R
+runDrugScoring(python_exe = "python", dti_file = "Target_module_dti.txt", fasta_file = "proteins.fasta", network_file = "Target_module_edges.txt", output_folder = "output_Files")
+```
+
+The `runDrugScoring` function accepts five parameters:
+* `python_exe`: The path to the Python executable.
+* `dti_file`: The path to the drug-target interaction file, expected to be in TSV format with two columns: drug ID and protein UniProt ID.
+* `fasta_file`: The path to the protein FASTA file.
+* `network_file`: The path to the protein-protein interaction network file.
+* `output_folder`: The path to the output directory where results will be saved.
+
+It initially predicts the binding affinity between drugs and targets and calculates drug ranking scores based on these predictions by running two Python scripts. It ultimately produces a data frame with the first column representing the name of the drug, the second column listing all the targets the drug interacts with within the target module, and the third column displaying the computed repurposing score.
+
+> **Note:** For more detailed information about each function, please refer to the function comments in the respective script.
