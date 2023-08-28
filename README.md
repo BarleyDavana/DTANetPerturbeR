@@ -14,7 +14,7 @@ Drug-Target binding Affinity based <br>Network Perturbation approach <br>for dru
 **DTANetPerturbeR** is an R package designed for drug repurposing based on network perturbation algorithm. Its primary aim is to identify candidate drugs for a disease of interest. Given a set of genes associated with a disease provided by the user, the package constructs disease networks, identifies target module, and performs drug repurposing. Ultimately, it calculates repurposing scores and ranks the drugs accordingly.
 
 ### Overview of drug repurposing computational framework
-![workflow](https://github.com/BarleyDavana/DTANetPerturbeR/assets/130750578/2509e5a4-a283-42cb-8096-931118b888a8)
+![workflow](https://github.com/BarleyDavana/DTANetPerturbeR/assets/130750578/d6373298-da82-47c1-833a-c759ecf7f6c6)
 **Drug repurposing through the PRS-based approach.** Step1: Construct a heterogeneous network comprising non-target proteins, target proteins, and drugs. Step2: Use DeepPurpose to predict binding affinities for drug-target interactions and assign weights to edges in the heterogeneous network. Step3: Employ the PRS-based algorithm to calculate the perturbation score for a specific drug acting on its target. Step4: Calculate the sum of PRS scores for each drug in the network.
 
 ### Package organization
@@ -66,3 +66,40 @@ pip install prody
 For more details about ProDy, please visit
 https://github.com/prody/ProDy
 
+## Usage
+
+### Package architecture
+DTANetPerturbeR is composed of three main steps:
+
+* `Step1：Construct Disease Network.`
+* `Step2：Identify Target Module.`
+* `Step3：Perform Drug Repurposing.`
+
+![architecture](https://github.com/BarleyDavana/DTANetPerturbeR/assets/130750578/6cebb735-339f-4af4-bfb6-361496342525)
+
+### Construct Disease Network
+The createDiseaseNetwork.R script is used to construct a disease gene network for a given set of disease genes.
+```
+├── Step1
+│ ├── getCommonGenes.R
+│ ├── getInitialNet.R
+│ ├── runRWR.R
+│ ├── getEnlargedNet.R
+└── createDiseaseNetwork.R <---
+```
+
+Usage Example
+
+```R
+# Load disease genes from file
+gene_list <- read.table("gene_list.txt", header = TRUE, sep = '\t')
+
+# Create the disease network
+createDiseaseNetwork(gene_list)
+```
+
+The `createDiseaseNetwork` function accepts two parameters:
+* `disease_genes`: a data frame containing disease gene names in a single column.
+* `enlarge_network`: a logical parameter indicating whether to expand the network.
+
+It initially retrieves genes shared with other diseases and utilizes them to form an initial network. If the 'enlarge_network' parameter is set to TRUE (`default is FALSE`), the function expands the network. It ultimately returns the resulting disease network.
