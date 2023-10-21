@@ -40,17 +40,19 @@ def calculate_PRS(network_file, affinity_file, output_folder):
     df2 = pd.read_csv(os.path.join(output_folder, 'pcc_df.csv'))
     df = pd.merge(df1, df2, left_on='Target Name', right_on='orf_name')
     df = df[['Drug Name', 'Target Name', 'Binding Score', 'sens']]
-    df['score'] = df['Binding Score'] * df['sens']
-    df = df.sort_values(by='score', ascending=False)
-    new_df = df.groupby(['Drug Name'], as_index=False).agg({'Target Name': lambda x: ', '.join(sorted(set(x))), 'score': 'sum'})
+    df['ps'] = df['Binding Score'] * df['sens']
+    df['ps'] = (df['ps'] - df['ps'].min()) / (df['ps'].max() - df['ps'].min())
+    df = df.sort_values(by='ps', ascending=False)
+    new_df = df.groupby(['Drug Name'], as_index=False).agg({'Target Name': lambda x: ', '.join(sorted(set(x))), 'ps': 'sum'})
+    new_df = new_df.rename(columns={'ps': 'PS'})
     new_df['Target Name'] = new_df['Target Name'].apply(lambda x: ', '.join(sorted(set(x.split(', ')))))
-    new_df = new_df.sort_values(by='score', ascending=False)
+    new_df = new_df.sort_values(by='PS', ascending=False)
 
     # Save output files
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-    df.to_csv(os.path.join(output_folder, 'prs_dti_score.csv'), index=False)
-    new_df.to_csv(os.path.join(output_folder, 'drug_score.csv'), index=False)
+    df.to_csv(os.path.join(output_folder, 'prs_dti_ps.csv'), index=False)
+    new_df.to_csv(os.path.join(output_folder, 'drug_PS.csv'), index=False)
 
 if __name__ == '__main__':
     network_file = sys.argv[1]
